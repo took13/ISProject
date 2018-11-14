@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+ 
+{% block container %}
+  <div class="top-pad">
+    {% for id, plant in plants.items() %}
+      <div class="well">
+        <h2>
+          <a href="{{ url_for('plant', key=id) }}">{{plant['name'] }}</a>
+          <!--<small>{{ plant['location'] }}</small>-->
+        </h2>
+      </div>
+    {% endfor %}
+  </div>
+{% endblock %}

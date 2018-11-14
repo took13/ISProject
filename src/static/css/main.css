@@ -1,0 +1,14 @@
+
+.page-form {
+    max-width: 280px;
+}
+body {
+  padding-top: 10px;
+}
+.top-pad {
+  padding: 20px 15px 0 0;
+  text-align: center;
+}
+#map {
+    height: 100%;
+}

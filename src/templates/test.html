@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+ 
+{% block container %}
+  <div id="map"></div>
+    <br>
+<br>
+<br>
+{% for x in msg %}
+    <h6>{{x}}</h6>
+{% endfor %}
+    <script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD1OsoG7BT3hfORu8kIjhAPNWqLtNWfFyA&libraries=visualization&callback=initMap">
+    </script>
+{% endblock %}
+

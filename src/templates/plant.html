@@ -1,0 +1,66 @@
+{% extends 'home.html' %}
+ 
+{% block container %}
+    <div class="top-pad">
+        <h1>{{ plant['name'] }}
+            <small>{{ plant['contact'] }}</small>
+        </h1>
+        <h4>{{ plant['location'] }}</h4>
+
+        <!--<h1>Google Maps for {{ plant['name'] }}</h1>-->
+        <div id="weather" class="pull-right">
+            <h3>Wind Speed :<span><h1>{{ wind_speed }}</h1></span> m/s</h3>
+            <h3>Wind Direction: <span><h1>{{ wind_deg }}</h1></span> degrees</h3>
+        </div>
+        <div id="map" style="position:relative;left:200px;top:20px;width:600px;height:500px"></div>
+    </div>
+    <script>
+    var map, heatmap, myLatLng;
+      function initMap() {
+
+        myLatLng = {lat: {{ plant.latitude }},lng: {{ plant.longitude }}}
+
+        map = new google.maps.Map(document.getElementById('map'), {
+          zoom: 15,
+          center: myLatLng,
+          mapTypeId: 'hybrid'
+        });
+
+        var marker = new google.maps.Marker({
+          position: myLatLng,
+          map: map,
+          title: 'Hello World!'
+        });
+
+        heatmap = new google.maps.visualization.HeatmapLayer({
+          data: getPoints(),
+          radius: 30,
+          opacity: 0.4,
+          map: map
+        });
+
+        map.addListener('zoom_changed', function() {
+          var zoomLevel = map.getZoom();
+          heatmap.setOptions({
+              radius: zoomLevel*3
+          });
+        });
+      }
+
+      // Heatmap data: 500 Points
+
+      function getPoints() {
+        var g_data = {{data|safe}}
+        var heatmapArray = [];
+        for (var i = 0; i< g_data.length; i++){
+            g_location = new google.maps.LatLng(g_data[i]['latitude'],g_data[i]['longitude']);
+            heatmapArray.push({location: g_location, weight: g_data[i]['weight']});
+        }
+        return heatmapArray;
+      }
+    </script>
+    <script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD1OsoG7BT3hfORu8kIjhAPNWqLtNWfFyA&libraries=visualization&callback=initMap">
+    </script>
+
+{% endblock %}
